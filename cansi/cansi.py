@@ -107,7 +107,6 @@ def addstr(window, y, x, string):
     # Iterate over the rest of the string-parts and print them with their colors
     for substring in color_split[1:]:
         if substring.startswith("[0K"):
-            window.deleteln()
             window.clrtoeol()
         else:
             color_str = substring.split("m")[0]
