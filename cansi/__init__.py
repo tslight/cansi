@@ -1,3 +1,3 @@
-from .cansi import addstr
+from .cansi import Cansi
 
-__all__ = ["addstr"]
+__all__ = ["Cansi"]
