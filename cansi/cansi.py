@@ -140,8 +140,10 @@ class Cansi:
                 color_str = substring.split("m")[0]
                 substring = substring[len(color_str) + 1 :]
 
-                if color_str in ["[0", "[1", "[0;"]:
+                if color_str in ["[0", "[0;"]:
                     color_pair = self.white_black
+                elif color_str == "[1":
+                    self.window.attron(curses.A_BOLD)
                 else:
                     color_pair = self.ansi_to_curses[color_str]
 
