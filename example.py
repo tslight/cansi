@@ -1,12 +1,5 @@
-# CURSES ANSI PARSER
+#!/usr/bin/env python
 
-## INSTALLATION
-
-`pip install cansi`
-
-## EXAMPLE
-
-``` python
 import curses
 from cansi import Cansi
 
@@ -34,8 +27,3 @@ def event_loop(stdscr):
 
 
 curses.wrapper(event_loop)
-```
-
-## REFERENCES
-
-http://ascii-table.com/ansi-escape-sequences.php

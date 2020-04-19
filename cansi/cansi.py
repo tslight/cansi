@@ -62,7 +62,16 @@ class Cansi:
         self.black_cyan_bold = curses.color_pair(20) | curses.A_BOLD
         self.black_white_bold = curses.color_pair(21) | curses.A_BOLD
 
-        self.ansi_to_curses = {
+        self.ansi_attr = {
+            "[1": curses.A_BOLD,
+            "[4": curses.A_UNDERLINE,
+            "[5": curses.A_BLINK,
+            "[7": curses.A_REVERSE,
+        }
+
+        self.ansi_color = {
+            "[0": self.white_black,
+            "[0;": self.white_black,
             "[30": self.white_black,
             "[31": self.red_black,
             "[32": self.green_black,
@@ -128,25 +137,22 @@ class Cansi:
         """
 
         # split but \033 which stands for a color change
-        color_split = re.split("\x1b|\\033|\033", string, flags=re.IGNORECASE)
+        esc_split = re.split("\x1b|\\033|\033", string, flags=re.IGNORECASE)
+        color_pair = self.white_black
 
         # Print the first part of the string without color change
-        self.window.addstr(y, x, color_split[0], self.white_black)
-        x += len(color_split[0])
+        self.window.addstr(y, x, esc_split[0], color_pair)
+        x += len(esc_split[0])
 
         # Iterate over the rest of the string-parts and print them with their colors
-        for substring in color_split[1:]:
+        for substring in esc_split[1:]:
             if not substring.startswith("[0K"):
-                color_str = substring.split("m")[0]
-                substring = substring[len(color_str) + 1 :]
-
-                if color_str in ["[0", "[0;"]:
-                    color_pair = self.white_black
-                elif color_str == "[1":
-                    self.window.attron(curses.A_BOLD)
+                ansi_code = substring.split("m")[0]
+                substring = substring[len(ansi_code) + 1 :]
+                if ansi_code in ["[1", "[4", "[5", "[7", "[8"]:
+                    color_pair = color_pair | self.ansi_attr[ansi_code]
                 else:
-                    color_pair = self.ansi_to_curses[color_str]
-
+                    color_pair = self.ansi_color[ansi_code]
                 if substring:
                     self.window.addstr(y, x, substring, color_pair)
                     x += len(substring)
