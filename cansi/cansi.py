@@ -106,11 +106,10 @@ def addstr(window, y, x, string):
 
     # Iterate over the rest of the string-parts and print them with their colors
     for substring in color_split[1:]:
-        if substring.startswith("[0K"):
-            window.clrtoeol()
-        else:
+        if not substring.startswith("[0K"):
             color_str = substring.split("m")[0]
             substring = substring[len(color_str) + 1 :]
             color_pair = _color_str_to_color_pair(color_str)
-            window.addstr(y, x, substring, curses.color_pair(color_pair))
-            x += len(substring)
+            if substring:
+                window.addstr(y, x, substring, curses.color_pair(color_pair))
+                x += len(substring)
