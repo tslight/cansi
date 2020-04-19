@@ -16,9 +16,9 @@ def event_loop(stdscr):
     cansi = Cansi(stdscr)
     lines = [
         "\033[1;32mThis line is bright GREEN\033[0m",
-        "\033[0;32mThis line is GREEN\033[0m",
         "\033[1;31mThis line is bright RED\033[0m",
-        "\033[0;31mThis line is bright RED\033[0m",
+        "\033[0;32mThis line is GREEN\033[0m",
+        "\033[0;31mThis line is RED\033[0m",
         "\033[1;37mPress q to quit\033[0m",
     ]
     while True:
