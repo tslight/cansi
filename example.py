@@ -8,8 +8,8 @@ def event_loop(stdscr):
     curses.curs_set(0)  # hide the cursor
     cansi = Cansi(stdscr)
     lines = [
-        "\033[1;32mThis line is bright GREEN\033[0m",
-        "\033[1;31mThis line is bright RED\033[0m",
+        "\u001b[1;32mThis line is bright GREEN\u001b[0m",
+        "\x1b[1;31mThis line is bright RED\x1b[0m",
         "\033[0;32mThis line is GREEN\033[0m",
         "\033[0;31mThis line is RED\033[0m",
         "\033[1mThis line is \033[1;33mBOLD\033[0m",
