@@ -134,10 +134,13 @@ class Cansi:
         """
         Adds the color-formatted string to the given window, in the given
         coordinates
-        """
 
-        # split but \033 which stands for a color change
-        esc_split = re.split("\x1b|\\033|\033", string, flags=re.IGNORECASE)
+        ANSI escapes always start with \x1b, or \e, or \033. These are all the
+        same thing: they’re just various ways of inserting the byte 27 into a
+        string. If you look at an ASCII table, 0x1b is literally called ESC,
+        and this is basically why.
+        """
+        esc_split = string.split("\x1b")
         color_pair = self.white_black
 
         # Print the first part of the string without color change
