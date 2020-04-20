@@ -16,7 +16,7 @@ def event_loop(stdscr):
         "\033[4mThis line is \033[1;35m\033[4mUNDERLINED\033[0m",
         "\033[5mThis line \033[1;36m\033[5mBLINKS\033[0m",
         "\033[7mThis line is \033[1mREVERSE\033[0m",
-        "\033[0KmTHIS LINE WON'T BE DISPLAYED\033[0m",
+        # "\033[0KTHIS LINE WON'T BE DISPLAYED\033[0m",
         "\033[1;37mPress q to quit\033[0m",
     ]
     while True:
