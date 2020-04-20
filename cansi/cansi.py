@@ -1,6 +1,8 @@
 import curses
 import re
 
+# pylint: disable=too-many-instance-attributes, too-few-public-methods, too-many-statements
+
 
 class Cansi:
     """
@@ -63,71 +65,71 @@ class Cansi:
         self.black_white_bold = curses.color_pair(21) | curses.A_BOLD
 
         self.ansi_attr = {
-            "[1": curses.A_BOLD,
-            "[4": curses.A_UNDERLINE,
-            "[5": curses.A_BLINK,
-            "[7": curses.A_REVERSE,
+            "1": curses.A_BOLD,
+            "4": curses.A_UNDERLINE,
+            "5": curses.A_BLINK,
+            "7": curses.A_REVERSE,
         }
 
         self.ansi_color = {
-            "[0": self.white_black,
-            "[0;": self.white_black,
-            "[30": self.white_black,
-            "[31": self.red_black,
-            "[32": self.green_black,
-            "[33": self.yellow_black,
-            "[34": self.blue_black,
-            "[35": self.magenta_black,
-            "[36": self.cyan_black,
-            "[37": self.white_black,
-            "[90": self.white_black_bold,
-            "[91": self.red_black_bold,
-            "[92": self.green_black_bold,
-            "[93": self.yellow_black_bold,
-            "[94": self.blue_black_bold,
-            "[95": self.magenta_black_bold,
-            "[96": self.cyan_black_bold,
-            "[97": self.white_black_bold,
-            "[0;30": self.white_black,
-            "[0;31": self.red_black,
-            "[0;32": self.green_black,
-            "[0;33": self.yellow_black,
-            "[0;34": self.blue_black,
-            "[0;35": self.magenta_black,
-            "[0;36": self.cyan_black,
-            "[0;37": self.white_black,
-            "[0;90": self.white_black_bold,
-            "[0;91": self.red_black_bold,
-            "[0;92": self.green_black_bold,
-            "[0;93": self.yellow_black_bold,
-            "[0;94": self.blue_black_bold,
-            "[0;95": self.magenta_black_bold,
-            "[0;96": self.cyan_black_bold,
-            "[0;97": self.white_black_bold,
-            "[1;30": self.white_black_bold,
-            "[1;31": self.red_black_bold,
-            "[1;32": self.green_black_bold,
-            "[1;33": self.yellow_black_bold,
-            "[1;34": self.blue_black_bold,
-            "[1;35": self.magenta_black_bold,
-            "[1;36": self.cyan_black_bold,
-            "[1;37": self.white_black_bold,
-            "[30;0": self.white_black,
-            "[31;0": self.red_black,
-            "[32;0": self.green_black,
-            "[33;0": self.yellow_black,
-            "[34;0": self.blue_black,
-            "[35;0": self.magenta_black,
-            "[36;0": self.cyan_black,
-            "[37;0": self.white_black,
-            "[30;1": self.white_black_bold,
-            "[31;1": self.red_black_bold,
-            "[32;1": self.green_black_bold,
-            "[33;1": self.yellow_black_bold,
-            "[34;1": self.blue_black_bold,
-            "[35;1": self.magenta_black_bold,
-            "[36;1": self.cyan_black_bold,
-            "[37;1": self.white_black_bold,
+            "0": self.white_black,
+            "0;": self.white_black,
+            "30": self.white_black,
+            "31": self.red_black,
+            "32": self.green_black,
+            "33": self.yellow_black,
+            "34": self.blue_black,
+            "35": self.magenta_black,
+            "36": self.cyan_black,
+            "37": self.white_black,
+            "90": self.white_black_bold,
+            "91": self.red_black_bold,
+            "92": self.green_black_bold,
+            "93": self.yellow_black_bold,
+            "94": self.blue_black_bold,
+            "95": self.magenta_black_bold,
+            "96": self.cyan_black_bold,
+            "97": self.white_black_bold,
+            "0;30": self.white_black,
+            "0;31": self.red_black,
+            "0;32": self.green_black,
+            "0;33": self.yellow_black,
+            "0;34": self.blue_black,
+            "0;35": self.magenta_black,
+            "0;36": self.cyan_black,
+            "0;37": self.white_black,
+            "0;90": self.white_black_bold,
+            "0;91": self.red_black_bold,
+            "0;92": self.green_black_bold,
+            "0;93": self.yellow_black_bold,
+            "0;94": self.blue_black_bold,
+            "0;95": self.magenta_black_bold,
+            "0;96": self.cyan_black_bold,
+            "0;97": self.white_black_bold,
+            "1;30": self.white_black_bold,
+            "1;31": self.red_black_bold,
+            "1;32": self.green_black_bold,
+            "1;33": self.yellow_black_bold,
+            "1;34": self.blue_black_bold,
+            "1;35": self.magenta_black_bold,
+            "1;36": self.cyan_black_bold,
+            "1;37": self.white_black_bold,
+            "30;0": self.white_black,
+            "31;0": self.red_black,
+            "32;0": self.green_black,
+            "33;0": self.yellow_black,
+            "34;0": self.blue_black,
+            "35;0": self.magenta_black,
+            "36;0": self.cyan_black,
+            "37;0": self.white_black,
+            "30;1": self.white_black_bold,
+            "31;1": self.red_black_bold,
+            "32;1": self.green_black_bold,
+            "33;1": self.yellow_black_bold,
+            "34;1": self.blue_black_bold,
+            "35;1": self.magenta_black_bold,
+            "36;1": self.cyan_black_bold,
+            "37;1": self.white_black_bold,
         }
 
     def addstr(self, y, x, string):
@@ -135,27 +137,32 @@ class Cansi:
         Adds the color-formatted string to the given window, in the given
         coordinates
 
-        ANSI escapes always start with \x1b, or \e, or \033. These are all the
-        same thing: they’re just various ways of inserting the byte 27 into a
-        string. If you look at an ASCII table, 0x1b is literally called ESC,
-        and this is basically why.
+        ANSI escapes (CSI - Control Sequence Introducers) always start with
+        \\e, \033 (octal), \x1b (hex) or \001b. They’re just various ways of
+        inserting byte 27 into a string. In an ASCII table, 0x1b is called ESC,
+        and this is why.
         """
-        esc_split = string.split("\x1b")
+        ansi_split = string.split("\x1b[")
         color_pair = self.white_black
 
         # Print the first part of the string without color change
-        self.window.addstr(y, x, esc_split[0], color_pair)
-        x += len(esc_split[0])
+        self.window.addstr(y, x, ansi_split[0], color_pair)
+        x += len(ansi_split[0])
 
         # Iterate over the rest of the string-parts and print them with their colors
-        for substring in esc_split[1:]:
-            if not substring.startswith("[0K"):
+        for substring in ansi_split[1:]:
+            if substring.startswith("0K"):
+                substring = substring.replace("0K", "")
+            elif substring.startswith("1G"):
+                x = 0
+            else:
                 ansi_code = substring.split("m")[0]
                 substring = substring[len(ansi_code) + 1 :]
-                if ansi_code in ["[1", "[4", "[5", "[7", "[8"]:
+                if ansi_code in ["1", "4", "5", "7", "8"]:
                     color_pair = color_pair | self.ansi_attr[ansi_code]
                 else:
                     color_pair = self.ansi_color[ansi_code]
-                if substring:
-                    self.window.addstr(y, x, substring, color_pair)
-                    x += len(substring)
+
+            if substring:
+                self.window.addstr(y, x, substring, color_pair)
+                x += len(substring)

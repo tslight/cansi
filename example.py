@@ -8,7 +8,7 @@ def event_loop(stdscr):
     curses.curs_set(0)  # hide the cursor
     cansi = Cansi(stdscr)
     lines = [
-        "\u001b[1;32mThis line is bright GREEN\u001b[0m",
+        "\u001b[1;32m\rThis line is bright GREEN\r\u001b[0m",
         "\x1b[1;31mThis line is bright RED\x1b[0m",
         "\033[0;32mThis line is GREEN\033[0m",
         "\033[0;31mThis line is RED\033[0m",
@@ -16,7 +16,7 @@ def event_loop(stdscr):
         "\033[4mThis line is \033[1;35m\033[4mUNDERLINED\033[0m",
         "\033[5mThis line \033[1;36m\033[5mBLINKS\033[0m",
         "\033[7mThis line is \033[1mREVERSE\033[0m",
-        "\033[0KmThis line won't be displayed\033[0m",
+        "\033[0KmTHIS LINE WON'T BE DISPLAYED\033[0m",
         "\033[1;37mPress q to quit\033[0m",
     ]
     while True:
