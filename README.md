@@ -39,8 +39,13 @@ curses.wrapper(event_loop)
 ## REFERENCES
 
 https://docs.python.org/3/howto/curses.html
+
 https://docs.python.org/3/library/curses.html
+
 https://www.perlmonks.org/bare/?node_id=215785
+
 http://ascii-table.com/ansi-escape-sequences.php
+
 https://notes.burke.libbey.me/ansi-escape-codes/
+
 https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
