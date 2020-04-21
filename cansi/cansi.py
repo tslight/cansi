@@ -14,122 +14,30 @@ class Cansi:
         curses.use_default_colors()  # https://stackoverflow.com/a/44015131
 
         self.window = window
+        self.ansi_color = {}
 
         for i in range(1, 8):
-            curses.init_pair(i, i, -1)
-            curses.init_pair(i + 7, curses.COLOR_WHITE, i)
-            curses.init_pair(i + 14, curses.COLOR_BLACK, i)
-
-        self.red_black = curses.color_pair(1)
-        self.green_black = curses.color_pair(2)
-        self.yellow_black = curses.color_pair(3)
-        self.blue_black = curses.color_pair(4)
-        self.magenta_black = curses.color_pair(5)
-        self.cyan_black = curses.color_pair(6)
-        self.white_black = curses.color_pair(7)
-        self.white_red = curses.color_pair(8)
-        self.white_green = curses.color_pair(9)
-        self.white_yellow = curses.color_pair(10)
-        self.white_blue = curses.color_pair(11)
-        self.white_magenta = curses.color_pair(12)
-        self.white_cyan = curses.color_pair(13)
-        self.white_white = curses.color_pair(14)
-        self.black_red = curses.color_pair(15)
-        self.black_green = curses.color_pair(16)
-        self.black_yellow = curses.color_pair(17)
-        self.black_blue = curses.color_pair(18)
-        self.black_magenta = curses.color_pair(19)
-        self.black_cyan = curses.color_pair(20)
-        self.black_white = curses.color_pair(21)
-
-        self.red_black_bold = curses.color_pair(1) | curses.A_BOLD
-        self.green_black_bold = curses.color_pair(2) | curses.A_BOLD
-        self.yellow_black_bold = curses.color_pair(3) | curses.A_BOLD
-        self.blue_black_bold = curses.color_pair(4) | curses.A_BOLD
-        self.magenta_black_bold = curses.color_pair(5) | curses.A_BOLD
-        self.cyan_black_bold = curses.color_pair(6) | curses.A_BOLD
-        self.white_black_bold = curses.color_pair(7) | curses.A_BOLD
-        self.white_red_bold = curses.color_pair(8) | curses.A_BOLD
-        self.white_green_bold = curses.color_pair(9) | curses.A_BOLD
-        self.white_yellow_bold = curses.color_pair(10) | curses.A_BOLD
-        self.white_blue_bold = curses.color_pair(11) | curses.A_BOLD
-        self.white_magenta_bold = curses.color_pair(12) | curses.A_BOLD
-        self.white_cyan_bold = curses.color_pair(13) | curses.A_BOLD
-        self.white_white_bold = curses.color_pair(14) | curses.A_BOLD
-        self.black_red_bold = curses.color_pair(15) | curses.A_BOLD
-        self.black_green_bold = curses.color_pair(16) | curses.A_BOLD
-        self.black_yellow_bold = curses.color_pair(17) | curses.A_BOLD
-        self.black_blue_bold = curses.color_pair(18) | curses.A_BOLD
-        self.black_magenta_bold = curses.color_pair(19) | curses.A_BOLD
-        self.black_cyan_bold = curses.color_pair(20) | curses.A_BOLD
-        self.black_white_bold = curses.color_pair(21) | curses.A_BOLD
+            # start initialisation at 100 so we're less likely to clobber user
+            # defined pairs
+            curses.init_pair(i + 100, i, -1)  # color fg on black bg
+            curses.init_pair(i + 107, curses.COLOR_WHITE, i)  # white fg on color bg
+            curses.init_pair(i + 114, curses.COLOR_BLACK, i)  # black fg on color bg
+            self.ansi_color[str(i + 30)] = curses.color_pair(i + 100)
+            self.ansi_color["0;" + str(i + 30)] = curses.color_pair(i + 100)
+            self.ansi_color[str(i + 30) + ";0"] = curses.color_pair(i + 100)
+            self.ansi_color[str(i + 90)] = curses.color_pair(i + 100) | curses.A_BOLD
+            self.ansi_color["1;" + str(i + 30)] = (
+                curses.color_pair(i + 100) | curses.A_BOLD
+            )
+            self.ansi_color[str(i + 30) + ";1"] = (
+                curses.color_pair(i + 100) | curses.A_BOLD
+            )
 
         self.ansi_attr = {
             "1": curses.A_BOLD,
             "4": curses.A_UNDERLINE,
             "5": curses.A_BLINK,
             "7": curses.A_REVERSE,
-        }
-
-        self.ansi_color = {
-            "0": self.white_black,
-            "0;": self.white_black,
-            "30": self.white_black,
-            "31": self.red_black,
-            "32": self.green_black,
-            "33": self.yellow_black,
-            "34": self.blue_black,
-            "35": self.magenta_black,
-            "36": self.cyan_black,
-            "37": self.white_black,
-            "90": self.white_black_bold,
-            "91": self.red_black_bold,
-            "92": self.green_black_bold,
-            "93": self.yellow_black_bold,
-            "94": self.blue_black_bold,
-            "95": self.magenta_black_bold,
-            "96": self.cyan_black_bold,
-            "97": self.white_black_bold,
-            "0;30": self.white_black,
-            "0;31": self.red_black,
-            "0;32": self.green_black,
-            "0;33": self.yellow_black,
-            "0;34": self.blue_black,
-            "0;35": self.magenta_black,
-            "0;36": self.cyan_black,
-            "0;37": self.white_black,
-            "0;90": self.white_black_bold,
-            "0;91": self.red_black_bold,
-            "0;92": self.green_black_bold,
-            "0;93": self.yellow_black_bold,
-            "0;94": self.blue_black_bold,
-            "0;95": self.magenta_black_bold,
-            "0;96": self.cyan_black_bold,
-            "0;97": self.white_black_bold,
-            "1;30": self.white_black_bold,
-            "1;31": self.red_black_bold,
-            "1;32": self.green_black_bold,
-            "1;33": self.yellow_black_bold,
-            "1;34": self.blue_black_bold,
-            "1;35": self.magenta_black_bold,
-            "1;36": self.cyan_black_bold,
-            "1;37": self.white_black_bold,
-            "30;0": self.white_black,
-            "31;0": self.red_black,
-            "32;0": self.green_black,
-            "33;0": self.yellow_black,
-            "34;0": self.blue_black,
-            "35;0": self.magenta_black,
-            "36;0": self.cyan_black,
-            "37;0": self.white_black,
-            "30;1": self.white_black_bold,
-            "31;1": self.red_black_bold,
-            "32;1": self.green_black_bold,
-            "33;1": self.yellow_black_bold,
-            "34;1": self.blue_black_bold,
-            "35;1": self.magenta_black_bold,
-            "36;1": self.cyan_black_bold,
-            "37;1": self.white_black_bold,
         }
 
     def addstr(self, y, x, string):
@@ -143,7 +51,7 @@ class Cansi:
         and this is why.
         """
         ansi_split = string.split("\x1b[")
-        color_pair = self.white_black
+        color_pair = curses.color_pair(0)
 
         # Print the first part of the string without color change
         self.window.addstr(y, x, ansi_split[0], color_pair)
@@ -160,7 +68,7 @@ class Cansi:
                 substring = substring[len(ansi_code) + 1 :]
                 if ansi_code in ["1", "4", "5", "7", "8"]:
                     color_pair = color_pair | self.ansi_attr[ansi_code]
-                else:
+                elif ansi_code not in ["0", "0;"]:
                     color_pair = self.ansi_color[ansi_code]
 
             if substring:
